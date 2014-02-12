@@ -18,6 +18,13 @@ def make_chains(corpus):
     # split that string into single words
     word_list = []
     word_list = myfile.split()
+    print word_list
+    #this will delete quotation marks from the beginning and end of word in the list
+    #for item in word_list:
+     #   item = item.strip('"')
+    #return word_list    
+    #print word_list
+
 
     # use a for loop to create tuples to be the keys in the dictionary
     d = {}
@@ -36,13 +43,30 @@ def make_chains(corpus):
 
 d = make_chains(filename)
 
-print d
+# print d
 
 def make_tuple(dictionary):
     #generate the keys of the dictionary as a list
     list_of_keys = dictionary.keys()
-    # select a random number on the range of the length of the list
-    random_tuple = random.choice(list_of_keys)
+    # narrow down the list of keys to capital_letter_keys and 
+    # include only those that start with a capital letter
+    capital_letter_keys = []
+    for item in list_of_keys:
+        # if the first letter of the first item in the tuple is capital
+        # and the last letter of the first item is not punctuation
+        first_letter = item[0][0]
+        #second_letter = item[0][1]
+        last_letter = item[0][-1]
+        if ord(first_letter) >= 65 and ord(first_letter) <= 90 and ord(last_letter) >=97 and ord(last_letter) <=122:
+            # add it to the list of capital_letter_keys
+            capital_letter_keys.append(item)
+        # if the first letter of the first item is a quotation mark
+        # and the second letter of the first item is capital
+        #elif ord(first_letter) == 34 and ord(second_letter) >= 65 and ord(second_letter) <= 90:
+            # add it to the list of capital_letter_keys
+            capital_letter_keys.append(item)
+    # select a random item from the list of keys that start with at capital letter
+    random_tuple = random.choice(capital_letter_keys)
     # print the item at that index in the list_of_keys
     return random_tuple
 
@@ -59,14 +83,16 @@ def make_text(chains):
     text_string = []
     text_string.append(start_bigram[0])
     text_string.append(start_bigram[1])
-
-    for i in range(6):
-
-        first_word = text_string[i]
-        second_word = text_string[i + 1]
+    end_characters = ['.', '?', '!', '"', '!"', '?"', '."']
+    # while the last character of the last item of the list is not in the 
+    # end_character list, keep lopping
+    while text_string[-1][-1] not in end_characters:
+        first_word = text_string[-2]
+        second_word = text_string[-1]
             # look up the start bigram in the dictionary
             # add a random item from its associated values to the end 
         text_string.append(random.choice(chains[first_word, second_word]))
+    text_string = ' '.join(text_string)
     return text_string
 
 
