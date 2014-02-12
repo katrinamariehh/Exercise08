@@ -18,12 +18,10 @@ def make_chains(corpus):
     # split that string into single words
     word_list = []
     word_list = myfile.split()
-    print word_list
     #this will delete quotation marks from the beginning and end of word in the list
-    #for item in word_list:
-     #   item = item.strip('"')
-    #return word_list    
-    #print word_list
+    for i in range(len(word_list)):
+        word_list[i] = word_list[i].strip('"')
+    return word_list
 
 
     # use a for loop to create tuples to be the keys in the dictionary
@@ -46,29 +44,24 @@ d = make_chains(filename)
 # print d
 
 def make_tuple(dictionary):
-    #generate the keys of the dictionary as a list
+    # generate the keys of the dictionary as a list
     list_of_keys = dictionary.keys()
     # narrow down the list of keys to capital_letter_keys and 
     # include only those that start with a capital letter
     capital_letter_keys = []
     for item in list_of_keys:
-        # if the first letter of the first item in the tuple is capital
-        # and the last letter of the first item is not punctuation
+        # if the first character of the first item in the tuple is a capital letter
+        # and the last character of the first item is a lower-case letter
         first_letter = item[0][0]
-        #second_letter = item[0][1]
         last_letter = item[0][-1]
         if ord(first_letter) >= 65 and ord(first_letter) <= 90 and ord(last_letter) >=97 and ord(last_letter) <=122:
-            # add it to the list of capital_letter_keys
-            capital_letter_keys.append(item)
-        # if the first letter of the first item is a quotation mark
-        # and the second letter of the first item is capital
-        #elif ord(first_letter) == 34 and ord(second_letter) >= 65 and ord(second_letter) <= 90:
             # add it to the list of capital_letter_keys
             capital_letter_keys.append(item)
     # select a random item from the list of keys that start with at capital letter
     random_tuple = random.choice(capital_letter_keys)
     # print the item at that index in the list_of_keys
     return random_tuple
+
 
 
 
