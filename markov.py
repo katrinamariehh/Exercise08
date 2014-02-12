@@ -7,7 +7,7 @@ from sys import argv
 script, filename = argv
 
 
-d = {}
+chains = {}
 def make_chains(corpus):
     """Takes an input text as a string and returns a dictionary of
     markov chains."""
@@ -21,27 +21,25 @@ def make_chains(corpus):
     #this will delete quotation marks from the beginning and end of word in the list
     for i in range(len(word_list)):
         word_list[i] = word_list[i].strip('"')
-    return word_list
-
 
     # use a for loop to create tuples to be the keys in the dictionary
-    d = {}
+    chains = {}
     for i in range(len(word_list)-2):
         word_1 = word_list[i]
         word_2 = word_list[i + 1]
         word_3 = word_list[i + 2]
         # if the tuple word_1, word_2 exists in the dictionary, append word_3 to the values
-        if d.get((word_1, word_2)):
-            d[word_1, word_2].append(word_3)
+        if chains.get((word_1, word_2)):
+            chains[word_1, word_2].append(word_3)
         # if the tuple word_1, word_2 does not exist in the dictionary, add it and set the va
         # to word_3
         else:
-            d[word_1, word_2] = [word_3]
-    return d
+            chains[word_1, word_2] = [word_3]
+    return chains
 
-d = make_chains(filename)
+chains = make_chains(filename)
 
-# print d
+# print chains
 
 def make_tuple(dictionary):
     # generate the keys of the dictionary as a list
