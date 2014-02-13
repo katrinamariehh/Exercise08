@@ -2,6 +2,7 @@
 import random
 import sys
 import twitter
+import os
 from sys import argv
 
 
@@ -94,11 +95,12 @@ def make_text(chains):
         return make_text(chains)
 
 
-# # function to tweet the sentence
-# def tweet_sentence(some_text):
-#     if twitter_ready(some_text):
-#         # tweet to handle
-#     else:
+# function to tweet the sentence
+def tweet_sentence(some_text):
+    key = os.environ.get("TWITTER_API_KEY")
+    key_secret = os.environ.get("TWITTER_API_SECRET")
+    access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
+    access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 
 
 def main():
