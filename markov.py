@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import random
 import sys
+import twitter
 from sys import argv
 
 
@@ -21,6 +22,7 @@ def make_chains(corpus):
     #this will delete quotation marks from the beginning and end of word in the list
     for i in range(len(word_list)):
         word_list[i] = word_list[i].strip('"')
+        word_list[i] = word_list[i].strip("'")
 
     # use a for loop to create tuples to be the keys in the dictionary
     chains = {}
@@ -52,7 +54,7 @@ def make_tuple(dictionary):
         # and the last character of the first item is a lower-case letter
         first_letter = item[0][0]
         last_letter = item[0][-1]
-        if ord(first_letter) >= 65 and ord(first_letter) <= 90 and ord(last_letter) >=97 and ord(last_letter) <=122:
+        if ord(first_letter) >= ord('A') and ord(first_letter) <= ord('Z') and ord(last_letter) >= ord('a') and ord(last_letter) <= ord('z'):
             # add it to the list of capital_letter_keys
             capital_letter_keys.append(item)
     # select a random item from the list of keys that start with at capital letter
@@ -71,28 +73,33 @@ def make_text(chains):
     # start with capital letter or capital letter following a quotation mark
     # end with ".", "?", "!", or one of those followed by a quotation mark 
     start_bigram = make_tuple(chains)
-    text_string = []
-    text_string.append(start_bigram[0])
-    text_string.append(start_bigram[1])
+    text_list = []
+    text_list.append(start_bigram[0])
+    text_list.append(start_bigram[1])
     end_characters = ['.', '?', '!', '"', '!"', '?"', '."']
     # while the last character of the last item of the list is not in the 
     # end_character list, keep lopping
-    while text_string[-1][-1] not in end_characters:
-        first_word = text_string[-2]
-        second_word = text_string[-1]
+
+    while text_list[-1][-1] not in end_characters:
+        first_word = text_list[-2]
+        second_word = text_list[-1]
             # look up the start bigram in the dictionary
             # add a random item from its associated values to the end 
-        text_string.append(random.choice(chains[first_word, second_word]))
-    text_string = ' '.join(text_string)
-    return text_string
+        text_list.append(random.choice(chains[first_word, second_word]))
+    text_string = ' '.join(text_list)
+    # if the string is less than or equal to 140 characters
+    if len(text_string) <= 140:
+        return text_string
+    else:
+        return make_text(chains)
 
 
+# # function to tweet the sentence
+# def tweet_sentence(some_text):
+#     if twitter_ready(some_text):
+#         # tweet to handle
+#     else:
 
-    # go look up that tuple in the dictionary
-    # return the a random item from the value (which is a list) 
-    # associated with the tuple
-    # do the same thing with the new last two words
-    #return "Here's some random text."
 
 def main():
     args = sys.argv
