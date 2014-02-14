@@ -102,7 +102,13 @@ def tweet_sentence(some_text):
     access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
     access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 
+    api = twitter.Api(consumer_key = key,
+                      consumer_secret = key_secret,
+                      access_token_key = access_token,
+                      access_token_secret = access_token_secret)   
 
+    api.PostUpdate(some_text)
+  
 def main():
     args = sys.argv
 
@@ -111,6 +117,7 @@ def main():
 
     chain_dict = make_chains(input_text)
     random_text = make_text(chain_dict)
+    tweet_sentence(random_text)
     print random_text
 
 if __name__ == "__main__":
