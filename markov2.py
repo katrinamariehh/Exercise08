@@ -6,53 +6,63 @@ import os
 from sys import argv
 
 
-script, filename = argv
+script, filename, ngram = argv
 
 
 chains = {}
-def make_chains(corpus):
+def make_chains(corpus, ngram_length):
     """Takes an input text as a string and returns a dictionary of
     markov chains."""
-    # read our text file into a variable
+    # read text file into a variable
     f = open(corpus, "r")
     myfile = f.read()
     f.close()
-    # split that string into single words
+    # split text file string into single words
     word_list = []
     word_list = myfile.split()
-    #this will delete quotation marks from the beginning and end of word in the list
+    # delete quotation marks from the beginning and end of word in the list
     for i in range(len(word_list)):
         word_list[i] = word_list[i].strip('"')
         word_list[i] = word_list[i].strip("'")
 
-    # use a for loop to create tuples to be the keys in the dictionary
     chains = {}
+    # use a for loop to create tuples to be the keys in the dictionary
     # this for loop creates a bigram-based dictionary
-    for i in range(len(word_list)-2):
-        word_1 = word_list[i]
-        word_2 = word_list[i + 1]
-        word_3 = word_list[i + 2]
-        # if the tuple word_1, word_2 exists in the dictionary, append word_3 to the values
-        if chains.get((word_1, word_2)):
-            chains[word_1, word_2].append(word_3)
-        # if the tuple word_1, word_2 does not exist in the dictionary, add it and set the va
-        # to word_3
-        else:
-            chains[word_1, word_2] = [word_3]
-    # attempting to add ability to select the lenth of the ngram, maybe with a default of 2 of no length is given?
+    # for i in range(len(word_list)-2):
+    #     word_1 = word_list[i]
+    #     word_2 = word_list[i + 1]
+    #     word_3 = word_list[i + 2]
+    #     # if the tuple word_1, word_2 exists in the dictionary, append word_3 to the values
+    #     if chains.get((word_1, word_2)):
+    #         chains[word_1, word_2].append(word_3)
+    #     # if the tuple word_1, word_2 does not exist in the dictionary, add it and set the va
+    #     # to word_3
+    #     else:
+    #         chains[word_1, word_2] = [word_3]
+    # attempting to add ability to select the lenth of the ngram
+    # TODO a default of 2 of no length is given?
 
-    for i in range(len(word_list) - ngram_length):
-        for j in (ngram_length + 1):
+    # iterating over the word list
+    for i in range(len(word_list) - int(ngram_length)):
+        # iterating over the length of the ngram
+        for j in range(int(ngram_length) + 1):
             ngram = []
-            ngram[j] = word_list[i]
-            j += 1
-            i += 1
-
-
+            # each word in the ngram can be referenced as the i index plus the j index
+            ngram.append(word_list[i+j])
+        # but this makes ngram a list and to be a key in the dictionary it needs to be a tuple
+        ngram_key = ngram[:-1]
+        ngram_value = ngram[-1]
+        # this looks up the ngram in the dictionary
+        if chains.get(ngram_key):
+            # adds the value if the ngram is already present
+            chains(ngram_key).append(ngram_value)
+        else:
+            # and creates the initial key-value pair if the ngram is not present
+            chains[ngram_key] = ngram_value
 
     return chains
 
-chains = make_chains(filename)
+chains = make_chains(filename, ngram)
 
 # print chains
 
@@ -127,7 +137,7 @@ def main():
     #Change this to read input_text from a file
     input_text = filename
 
-    chain_dict = make_chains(input_text)
+    chain_dict = make_chains(input_text, ngram)
     random_text = make_text(chain_dict)
     # tweet_sentence(random_text)
     print random_text
