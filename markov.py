@@ -80,7 +80,7 @@ def make_text(chains):
     text_list.append(start_bigram[1])
     end_characters = ['.', '?', '!', '"', '!"', '?"', '."']
     # while the last character of the last item of the list is not in the 
-    # end_character list, keep lopping
+    # end_character list, keep looping
 
     while text_list[-1][-1] not in end_characters:
         first_word = text_list[-2]
