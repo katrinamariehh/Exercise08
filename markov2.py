@@ -39,6 +39,17 @@ def make_chains(corpus):
         # to word_3
         else:
             chains[word_1, word_2] = [word_3]
+    # attempting to add ability to select the lenth of the ngram, maybe with a default of 2 of no length is given?
+
+    for i in range(len(word_list) - ngram_length):
+        for j in (ngram_length + 1):
+            ngram = []
+            ngram[j] = word_list[i]
+            j += 1
+            i += 1
+
+
+
     return chains
 
 chains = make_chains(filename)
